@@ -3,7 +3,7 @@ from snakemake_logger_plugin_sqlite.models.enums import Status
 
 from sqlalchemy import JSON, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Dict, Any, TYPE_CHECKING
 import uuid
 
@@ -16,7 +16,9 @@ class Workflow(Base):
     __tablename__ = "workflows"  # Using plural for consistency
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     snakefile: Mapped[Optional[str]]
-    started_at: Mapped[datetime] = mapped_column(default=datetime.utcnow())
+    started_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(timezone.utc)
+    )
     end_time: Mapped[Optional[datetime]]
     status: Mapped[Status] = mapped_column(Enum(Status), default="UNKNOWN")
     command_line: Mapped[Optional[str]]

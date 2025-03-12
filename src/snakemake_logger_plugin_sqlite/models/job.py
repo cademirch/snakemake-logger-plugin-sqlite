@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Optional
 
 from sqlalchemy import ForeignKey, Enum
@@ -51,7 +51,9 @@ class Job(Base):
     threads: Mapped[int]
     priority: Mapped[Optional[int]]
     status: Mapped[Status] = mapped_column(Enum(Status), default="UNKNOWN")
-    started_at: Mapped[datetime] = mapped_column(default=datetime.utcnow())
+    started_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(timezone.utc)
+    )
     end_time: Mapped[Optional[datetime]]
     group_id: Mapped[Optional[int]]
 

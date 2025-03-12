@@ -15,3 +15,15 @@ dependencies = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "snakemake-interface-logger-plugins",
+    "snakemake",
+    "ruff>=0.9.10",
+]
+
+[tool.uv.sources]
+snakemake-interface-logger-plugins = { git = "https://github.com/snakemake/snakemake-interface-logger-plugins", branch = "main" }
+snakemake = { git = "https://github.com/cademirch/snakemake", branch = "logging-refactor" }
