@@ -91,8 +91,8 @@ class WorkflowStartedHandler(EventHandler):
         workflow_data = parsers.WorkflowStarted.from_record(record)
         workflow = Workflow(
             id=workflow_data.workflow_id,
-            command_line=str(workflow_data.execution_settings.get("command_line", "")),
-            dryrun=bool(workflow_data.execution_settings.get("dryrun", False)),
+            snakefile=workflow_data.snakefile,
+            dryrun=context["dryrun"],
             status=Status.RUNNING,
         )
         session.add(workflow)

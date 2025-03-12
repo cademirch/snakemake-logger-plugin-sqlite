@@ -4,7 +4,7 @@ from snakemake_logger_plugin_sqlite.handler import SQLiteLogHandler
 
 class LogHandler(LogHandlerBase, SQLiteLogHandler):
     def __post_init__(self) -> None:
-        SQLiteLogHandler.__init__(self)
+        SQLiteLogHandler.__init__(self, self.common_settings)
 
     @property
     def writes_to_stream(self) -> bool:

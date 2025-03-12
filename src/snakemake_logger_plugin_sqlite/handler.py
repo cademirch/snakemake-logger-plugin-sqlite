@@ -6,6 +6,7 @@ from logging import Handler, LogRecord
 from datetime import datetime
 
 from snakemake_interface_logger_plugins.common import LogEvent
+from snakemake_interface_logger_plugins.settings import OutputSettingsLoggerInterface
 from snakemake_logger_plugin_sqlite.db.session import DatabaseManager
 from snakemake_logger_plugin_sqlite.models.base import Base
 from snakemake_logger_plugin_sqlite.models.workflow import Workflow
@@ -34,7 +35,11 @@ class SQLiteLogHandler(Handler):
     event handlers to store them in a SQLite database.
     """
 
-    def __init__(self, db_path: Optional[str] = None):
+    def __init__(
+        self,
+        common_settings: OutputSettingsLoggerInterface,
+        db_path: Optional[str] = None,
+    ):
         """Initialize the SQLite log handler.
 
         Args:
@@ -43,7 +48,7 @@ class SQLiteLogHandler(Handler):
         super().__init__()
 
         self.db_manager = DatabaseManager(db_path)
-
+        self.common_settings = common_settings
         Base.metadata.create_all(self.db_manager.engine)
 
         self.event_handlers = {
@@ -58,7 +63,10 @@ class SQLiteLogHandler(Handler):
             LogEvent.ERROR.value: ErrorHandler(),
         }
 
-        self.context = {"current_workflow_id": None}
+        self.context = {
+            "current_workflow_id": None,
+            "dryrun": self.common_settings.dryrun,
+        }
 
     @contextmanager
     def session_scope(self):

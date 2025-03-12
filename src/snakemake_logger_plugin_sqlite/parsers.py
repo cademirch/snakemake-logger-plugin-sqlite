@@ -29,11 +29,6 @@ class Error(BaseModel):
 class WorkflowStarted(BaseModel):
     workflow_id: uuid.UUID
     snakefile: str
-    execution_settings: Dict[str, Any]
-    remote_execution_settings: Dict[str, Any]
-    scheduling_settings: Dict[str, Any]
-    group_settings: Dict[str, Any]
-    resource_settings: Dict[str, Any]
 
     @field_validator("snakefile", mode="before")
     @classmethod
@@ -49,11 +44,6 @@ class WorkflowStarted(BaseModel):
         return cls(
             workflow_id=getattr(record, "workflow_id", None),
             snakefile=getattr(record, "snakefile", ""),
-            execution_settings=getattr(record, "execution_settings", {}),
-            remote_execution_settings=getattr(record, "remote_execution_settings", {}),
-            scheduling_settings=getattr(record, "scheduling_settings", {}),
-            group_settings=getattr(record, "group_settings", {}),
-            resource_settings=getattr(record, "resource_settings", {}),
         )
 
 

@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 class Workflow(Base):
     __tablename__ = "workflows"  # Using plural for consistency
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    snakefile: Mapped[Optional[str]]
     started_at: Mapped[datetime] = mapped_column(default=datetime.utcnow())
     end_time: Mapped[Optional[datetime]]
     status: Mapped[Status] = mapped_column(Enum(Status), default="UNKNOWN")
