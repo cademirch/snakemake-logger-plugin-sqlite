@@ -1,7 +1,6 @@
 import uuid
 from typing import TYPE_CHECKING, Optional
 from datetime import datetime
-from logging import LogRecord
 
 from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship

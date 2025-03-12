@@ -1,7 +1,7 @@
 # src/snakemake_logger_plugin_sqlite/handler.py
 import logging
 from contextlib import contextmanager
-from typing import Dict, Any, Optional, Type
+from typing import Optional
 from logging import Handler, LogRecord
 from datetime import datetime
 
@@ -10,9 +10,6 @@ from snakemake_interface_logger_plugins.settings import OutputSettingsLoggerInte
 from snakemake_logger_plugin_sqlite.db.session import DatabaseManager
 from snakemake_logger_plugin_sqlite.models.base import Base
 from snakemake_logger_plugin_sqlite.models.workflow import Workflow
-from snakemake_logger_plugin_sqlite.models.rule import Rule
-from snakemake_logger_plugin_sqlite.models.job import Job
-from snakemake_logger_plugin_sqlite.models.file import File
 from snakemake_logger_plugin_sqlite.models.enums import Status
 
 from snakemake_logger_plugin_sqlite.events import (
@@ -112,7 +109,7 @@ class SQLiteLogHandler(Handler):
             with self.session_scope() as session:
                 handler.handle(record, session, self.context)
 
-        except Exception as e:
+        except Exception:
             self.handleError(record)
 
     def close(self) -> None:

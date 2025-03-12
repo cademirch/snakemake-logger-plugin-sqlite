@@ -3,12 +3,10 @@ import pytest
 import tempfile
 from pathlib import Path
 import subprocess
-import time
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # Import the models from your package
-from snakemake_logger_plugin_sqlite.models.base import Base
 from snakemake_logger_plugin_sqlite.models.workflow import Workflow
 from snakemake_logger_plugin_sqlite.models.rule import Rule
 from snakemake_logger_plugin_sqlite.models.job import Job
@@ -137,7 +135,7 @@ def test_sqlite_logger_models(temp_workflow_dir):
         input_files = {os.path.basename(f.path) for f in combine_job_input_files}
         expected_inputs = {"output1.txt", "output2.txt"}
         assert expected_inputs.issubset(input_files), (
-            f"Missing input files for combine_files job"
+            "Missing input files for combine_files job"
         )
 
         combine_job_output_files = [
