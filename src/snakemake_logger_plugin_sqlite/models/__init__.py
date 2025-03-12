@@ -1,4 +1,3 @@
-from snakemake_logger_plugin_sqlite.models.base import Base
 from snakemake_logger_plugin_sqlite.models.enums import Status, FileType
 
 
